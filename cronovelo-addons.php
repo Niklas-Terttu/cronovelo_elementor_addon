@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Sæt disse i wp-config.php for at aktivere auto-update via fx GitHub releases.
 if ( ! defined( 'CRONOVELO_ADDONS_UPDATE_URL' ) ) {
-    define( 'CRONOVELO_ADDONS_UPDATE_URL', '' );
+    define( 'CRONOVELO_ADDONS_UPDATE_URL', 'https://github.com/Niklas-Terttu/cronovelo_elementor_addon/' );
 }
 
 if ( ! defined( 'CRONOVELO_ADDONS_UPDATE_BRANCH' ) ) {
