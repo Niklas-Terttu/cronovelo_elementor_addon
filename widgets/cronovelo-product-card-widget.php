@@ -1274,11 +1274,14 @@ class Cronovelo_Product_Card_Widget extends \Elementor\Widget_Base {
 				align-items: stretch;
 			}
 			#<?php echo esc_attr( $widget_id ); ?> .cronovelo-grid__item {
-				display: block;
+				display: flex;
+				height: 100%;
 			}
 			#<?php echo esc_attr( $widget_id ); ?> .cronovelo-product-card {
-				display: block;
+				display: flex;
+				flex-direction: column;
 				height: 100%;
+				width: 100%;
 			}
 			#<?php echo esc_attr( $widget_id ); ?> .cronovelo-product-card__image {
 				display: block;
@@ -1317,6 +1320,7 @@ class Cronovelo_Product_Card_Widget extends \Elementor\Widget_Base {
 				line-height: 1;
 				font-weight: 600;
 				width: 100%;
+				margin-top: auto;
 				box-sizing: border-box;
 				transition: all 0.2s ease;
 			}
