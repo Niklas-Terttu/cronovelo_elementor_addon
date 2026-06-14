@@ -1330,13 +1330,16 @@ class Cronovelo_Product_Card_Widget extends \Elementor\Widget_Base {
 				z-index: 9999;
 				padding: 20px;
 				overflow-y: auto;
+				align-items: center;
+				justify-content: center;
 			}
 			#<?php echo esc_attr( $widget_id ); ?> .cronovelo-modal-overlay.is-open {
-				display: block;
+				display: flex;
 			}
 			#<?php echo esc_attr( $widget_id ); ?> .cronovelo-modal {
 				max-width: 1100px;
-				margin: 20px auto;
+				width: 100%;
+				margin: 0;
 				border-radius: 12px;
 				position: relative;
 				padding: 32px;
@@ -1356,7 +1359,7 @@ class Cronovelo_Product_Card_Widget extends \Elementor\Widget_Base {
 				display: grid;
 				grid-template-columns: minmax(260px, 48%) minmax(260px, 1fr);
 				gap: 32px;
-				align-items: start;
+				align-items: center;
 			}
 			#<?php echo esc_attr( $widget_id ); ?> .cronovelo-modal__media img {
 				display: block;
