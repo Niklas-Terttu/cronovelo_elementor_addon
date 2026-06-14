@@ -380,6 +380,7 @@ class Cronovelo_Offer_Grid_Widget extends \Elementor\Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 		$items    = ! empty( $settings['offer_items'] ) && is_array( $settings['offer_items'] ) ? $settings['offer_items'] : [];
+		$has_title = ! empty( $settings['section_title'] );
 
 		if ( empty( $items ) ) {
 			return;
@@ -388,14 +389,15 @@ class Cronovelo_Offer_Grid_Widget extends \Elementor\Widget_Base {
 		$columns_desktop = ! empty( $settings['columns_desktop'] ) ? max( 1, (int) $settings['columns_desktop'] ) : 3;
 		$columns_tablet  = ! empty( $settings['columns_tablet'] ) ? max( 1, (int) $settings['columns_tablet'] ) : 2;
 		$columns_mobile  = ! empty( $settings['columns_mobile'] ) ? max( 1, (int) $settings['columns_mobile'] ) : 1;
+		$inner_class     = 'cronovelo-offer-grid__inner' . ( $has_title ? '' : ' cronovelo-offer-grid__inner--no-title' );
 		?>
 		<section class="cronovelo-offer-grid">
-			<div class="cronovelo-offer-grid__inner">
-				<div class="cronovelo-offer-grid__left">
-					<?php if ( ! empty( $settings['section_title'] ) ) : ?>
+			<div class="<?php echo esc_attr( $inner_class ); ?>">
+				<?php if ( $has_title ) : ?>
+					<div class="cronovelo-offer-grid__left">
 						<h2 class="cronovelo-offer-grid__title"><?php echo esc_html( $settings['section_title'] ); ?></h2>
-					<?php endif; ?>
-				</div>
+					</div>
+				<?php endif; ?>
 
 				<div class="cronovelo-offer-grid__right">
 					<div class="cronovelo-offer-grid__cards" style="--offer-cols-desktop: <?php echo (int) $columns_desktop; ?>; --offer-cols-tablet: <?php echo (int) $columns_tablet; ?>; --offer-cols-mobile: <?php echo (int) $columns_mobile; ?>;">
@@ -426,6 +428,10 @@ class Cronovelo_Offer_Grid_Widget extends \Elementor\Widget_Base {
 				grid-template-columns: minmax(200px, 270px) minmax(0, 1fr);
 				column-gap: 42px;
 				align-items: start;
+			}
+			.cronovelo-offer-grid__inner--no-title {
+				grid-template-columns: minmax(0, 1fr);
+				column-gap: 0;
 			}
 			.cronovelo-offer-grid__title {
 				margin: 0;
