@@ -55,6 +55,17 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 		);
 
 		$repeater->add_control(
+			'slide_subtitle',
+			[
+				'label'       => esc_html__( 'Slide Undertekst', 'cronovelo-addons' ),
+				'type'        => \Elementor\Controls_Manager::TEXTAREA,
+				'rows'        => 3,
+				'placeholder' => esc_html__( 'Skriv en kort undertekst til overskriften', 'cronovelo-addons' ),
+				'label_block' => true,
+			]
+		);
+
+		$repeater->add_control(
 			'media_type',
 			[
 				'label'   => esc_html__( 'Medietype', 'cronovelo-addons' ),
@@ -74,6 +85,48 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 				'label'     => esc_html__( 'Vælg Billede', 'cronovelo-addons' ),
 				'type'      => \Elementor\Controls_Manager::MEDIA,
 				'condition' => [
+					'media_type' => 'image',
+				],
+			]
+		);
+
+		$repeater->add_responsive_control(
+			'slide_image_width',
+			[
+				'label'      => esc_html__( 'Billede Bredde', 'cronovelo-addons' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ '%', 'px', 'vw' ],
+				'range'      => [
+					'%'  => [ 'min' => 20, 'max' => 200, 'step' => 1 ],
+					'px' => [ 'min' => 100, 'max' => 3000, 'step' => 10 ],
+					'vw' => [ 'min' => 10, 'max' => 200, 'step' => 1 ],
+				],
+				'default'    => [
+					'unit' => '%',
+					'size' => 100,
+				],
+				'condition'  => [
+					'media_type' => 'image',
+				],
+			]
+		);
+
+		$repeater->add_responsive_control(
+			'slide_image_height',
+			[
+				'label'      => esc_html__( 'Billede Højde', 'cronovelo-addons' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ '%', 'px', 'vh' ],
+				'range'      => [
+					'%'  => [ 'min' => 20, 'max' => 200, 'step' => 1 ],
+					'px' => [ 'min' => 100, 'max' => 3000, 'step' => 10 ],
+					'vh' => [ 'min' => 10, 'max' => 200, 'step' => 1 ],
+				],
+				'default'    => [
+					'unit' => '%',
+					'size' => 100,
+				],
+				'condition'  => [
 					'media_type' => 'image',
 				],
 			]
@@ -289,6 +342,26 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'subtitle_color',
+			[
+				'label'     => esc_html__( 'Undertekst Farve', 'cronovelo-addons' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'default'   => '#ffffff',
+				'selectors' => [
+					'{{WRAPPER}} .hero-overlay .hero-subtitle' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name'     => 'subtitle_typography',
+				'selector' => '{{WRAPPER}} .hero-overlay .hero-subtitle',
+			]
+		);
+
 		$this->end_controls_section();
 
 
@@ -491,12 +564,25 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 									></iframe>
 								<?php endif; ?>
 							<?php elseif ( 'image' === $slide['media_type'] && ! empty( $slide['slide_image']['url'] ) ) : ?>
-								<img src="<?php echo esc_url( $slide['slide_image']['url'] ); ?>" alt="<?php echo esc_attr( $slide['slide_title'] ); ?>" class="hero-image hero-media-file">
+								<?php
+								$image_style = '';
+								if ( ! empty( $slide['slide_image_width']['size'] ) && ! empty( $slide['slide_image_width']['unit'] ) ) {
+									$image_style .= 'width:' . floatval( $slide['slide_image_width']['size'] ) . $slide['slide_image_width']['unit'] . ';';
+								}
+								if ( ! empty( $slide['slide_image_height']['size'] ) && ! empty( $slide['slide_image_height']['unit'] ) ) {
+									$image_style .= 'height:' . floatval( $slide['slide_image_height']['size'] ) . $slide['slide_image_height']['unit'] . ';';
+								}
+								?>
+								<img src="<?php echo esc_url( $slide['slide_image']['url'] ); ?>" alt="<?php echo esc_attr( $slide['slide_title'] ); ?>" class="hero-image hero-media-file" style="<?php echo esc_attr( $image_style ); ?>">
 							<?php endif; ?>
 
 							<div class="hero-overlay">
 								<?php if ( ! empty( $slide['slide_title'] ) ) : ?>
 									<h2><?php echo esc_html( $slide['slide_title'] ); ?></h2>
+								<?php endif; ?>
+
+								<?php if ( ! empty( $slide['slide_subtitle'] ) ) : ?>
+									<p class="hero-subtitle"><?php echo esc_html( $slide['slide_subtitle'] ); ?></p>
 								<?php endif; ?>
 
 								<?php if ( ! empty( $slide['btn_text'] ) && ! empty( $slide['btn_link']['url'] ) ) : ?>
@@ -558,6 +644,7 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 			}
 			.hero-overlay { position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; }
 			.hero-overlay h2 { font-size: 54px; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; font-family: 'Roboto', sans-serif; letter-spacing: 1px; }
+			.hero-overlay .hero-subtitle { font-size: 20px; line-height: 1.4; max-width: 920px; margin: 0 auto 20px; font-family: 'Roboto', sans-serif; }
 			.hero-btn { display: inline-block; padding: 12px 35px; text-decoration: none; font-weight: 600; transition: 0.3s ease; }
 			.hero-btn:hover { transform: scale(1.05); }
 			
@@ -567,6 +654,7 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 
 			@media (max-width: 767px) {
 				.hero-overlay h2 { font-size: 28px !important; }
+				.hero-overlay .hero-subtitle { font-size: 16px !important; }
 			}
 		</style>
 
