@@ -90,6 +90,18 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 			]
 		);
 
+		$repeater->add_control(
+			'image_link',
+			[
+				'label'       => esc_html__( 'Billedlink', 'cronovelo-addons' ),
+				'type'        => \Elementor\Controls_Manager::URL,
+				'placeholder' => 'https://',
+				'condition'   => [
+					'media_type' => 'image',
+				],
+			]
+		);
+
 		$repeater->add_responsive_control(
 			'slide_image_width',
 			[
@@ -573,7 +585,23 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 									$image_style .= 'height:' . floatval( $slide['slide_image_height']['size'] ) . $slide['slide_image_height']['unit'] . ';';
 								}
 								?>
-								<img src="<?php echo esc_url( $slide['slide_image']['url'] ); ?>" alt="<?php echo esc_attr( $slide['slide_title'] ); ?>" class="hero-image hero-media-file" style="<?php echo esc_attr( $image_style ); ?>">
+								<?php if ( ! empty( $slide['image_link']['url'] ) ) : ?>
+									<?php
+									$this->add_render_attribute( 'image_link_attr_' . $slide['_id'], 'href', $slide['image_link']['url'] );
+									$this->add_render_attribute( 'image_link_attr_' . $slide['_id'], 'class', 'hero-image-link' );
+									if ( $slide['image_link']['is_external'] ) {
+										$this->add_render_attribute( 'image_link_attr_' . $slide['_id'], 'target', '_blank' );
+									}
+									if ( $slide['image_link']['nofollow'] ) {
+										$this->add_render_attribute( 'image_link_attr_' . $slide['_id'], 'rel', 'nofollow' );
+									}
+									?>
+									<a <?php $this->print_render_attribute_string( 'image_link_attr_' . $slide['_id'] ); ?> aria-label="<?php echo esc_attr( $slide['slide_title'] ); ?>">
+										<img src="<?php echo esc_url( $slide['slide_image']['url'] ); ?>" alt="<?php echo esc_attr( $slide['slide_title'] ); ?>" class="hero-image hero-media-file" style="<?php echo esc_attr( $image_style ); ?>">
+									</a>
+								<?php else : ?>
+									<img src="<?php echo esc_url( $slide['slide_image']['url'] ); ?>" alt="<?php echo esc_attr( $slide['slide_title'] ); ?>" class="hero-image hero-media-file" style="<?php echo esc_attr( $image_style ); ?>">
+								<?php endif; ?>
 							<?php endif; ?>
 
 							<div class="hero-overlay">
@@ -641,6 +669,12 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 			}
 			.hero-youtube.hero-media-file {
 				border: 0;
+			}
+			.hero-image-link {
+				position: absolute;
+				inset: 0;
+				z-index: 1;
+				display: block;
 			}
 			.hero-overlay { position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; }
 			.hero-overlay h2 { font-size: 54px; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; font-family: 'Roboto', sans-serif; letter-spacing: 1px; }
