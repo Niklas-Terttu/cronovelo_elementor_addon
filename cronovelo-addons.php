@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Cronovelo Addons
  * Description: Skræddersyede avancerede Elementor widgets fra Cronovelo.
- * Version:     1.0.11
+ * Version:     1.0.12
  * Author:      Cronovelo
  * Text Domain: cronovelo-addons
  */
@@ -18,10 +18,6 @@ if ( ! defined( 'CRONOVELO_ADDONS_UPDATE_URL' ) ) {
 
 if ( ! defined( 'CRONOVELO_ADDONS_UPDATE_BRANCH' ) ) {
     define( 'CRONOVELO_ADDONS_UPDATE_BRANCH', 'main' );
-}
-
-if ( ! defined( 'CRONOVELO_ADDONS_UPDATE_TOKEN' ) ) {
-    define( 'CRONOVELO_ADDONS_UPDATE_TOKEN', '' );
 }
 
 function cronovelo_addons_init_update_checker() {
@@ -64,9 +60,6 @@ function cronovelo_addons_init_update_checker() {
         $update_checker->setBranch( CRONOVELO_ADDONS_UPDATE_BRANCH );
     }
 
-    if ( ! empty( CRONOVELO_ADDONS_UPDATE_TOKEN ) ) {
-        $update_checker->setAuthentication( CRONOVELO_ADDONS_UPDATE_TOKEN );
-    }
 }
 add_action( 'plugins_loaded', 'cronovelo_addons_init_update_checker' );
 
