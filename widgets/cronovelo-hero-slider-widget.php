@@ -667,6 +667,12 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 				object-fit: cover;
 				z-index: 0;
 			}
+			.hero-image.hero-media-file {
+				min-width: 0;
+				min-height: 0;
+				max-width: none;
+				max-height: none;
+			}
 			.hero-youtube.hero-media-file {
 				border: 0;
 			}
