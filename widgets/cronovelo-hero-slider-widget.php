@@ -735,21 +735,52 @@ class Cronovelo_Card_Widget extends \Elementor\Widget_Base {
 					});
 				}
 
+				function getSlideAutoplayDelay(slideEl) {
+					if (!slideEl) {
+						return 5000;
+					}
+
+					const rawDelay = Number(slideEl.dataset.swiperAutoplay);
+					if (Number.isFinite(rawDelay) && rawDelay > 0) {
+						return rawDelay;
+					}
+
+					return 5000;
+				}
+
+				function updateAutoplayDelay(swiper) {
+					if (!swiper || !swiper.params || !swiper.params.autoplay) {
+						return;
+					}
+
+					const activeSlide = swiper.slides[swiper.activeIndex];
+					const nextDelay = getSlideAutoplayDelay(activeSlide);
+					swiper.params.autoplay.delay = nextDelay;
+
+					if (swiper.autoplay) {
+						swiper.autoplay.stop();
+						swiper.autoplay.start();
+					}
+				}
+
+				const initialSlide = swiperElement.querySelector('.swiper-slide');
 				const swiperConfig = {
 					init: true,
 					slidesPerView: 1,
 					watchSlidesProgress: true,
 					autoplay: {
-						delay: 5000, // Standard hvis ikke andet er angivet
+						delay: getSlideAutoplayDelay(initialSlide),
 						disableOnInteraction: false,
 					},
 					loop: options.loop,
 					on: {
 						init: function() {
 							syncSlideMedia(this);
+							updateAutoplayDelay(this);
 						},
 						slideChangeTransitionStart: function() {
 							syncSlideMedia(this);
+							updateAutoplayDelay(this);
 						}
 					}
 				};
