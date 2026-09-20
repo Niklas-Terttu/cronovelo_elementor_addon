@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Cronovelo Addons
  * Description: Skræddersyede avancerede Elementor widgets fra Cronovelo.
- * Version:     1.0.12
+ * Version:     1.0.13
  * Author:      Cronovelo
  * Text Domain: cronovelo-addons
  */
