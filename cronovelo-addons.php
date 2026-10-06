@@ -2,24 +2,22 @@
 /**
  * Plugin Name: Cronovelo Addons
  * Description: Elementor widgets for Cronovelo and Terttus, including WooCommerce storefront components.
- * Version:     1.2.4
+ * Version:     1.2.5
  * Author:      Cronovelo / Terttus
  * Text Domain: cronovelo-addons
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CRONOVELO_ADDONS_VERSION', '1.2.4' );
+define( 'CRONOVELO_ADDONS_VERSION', '1.2.5' );
 
-if ( ! defined( 'CRONOVELO_ADDONS_UPDATE_URL' ) ) {
-    define( 'CRONOVELO_ADDONS_UPDATE_URL', 'https://github.com/Niklas-Terttu/cronovelo_elementor_addon' );
-}
-if ( ! defined( 'CRONOVELO_ADDONS_UPDATE_BRANCH' ) ) {
-    define( 'CRONOVELO_ADDONS_UPDATE_BRANCH', 'main' );
-}
+// Fixed updater source. Do not inherit legacy CRONOVELO_ADDONS_UPDATE_URL values
+// from wp-config.php; older installs may still contain the example "user/repo" URL.
+define( 'CRONOVELO_ADDONS_REPOSITORY_URL', 'https://github.com/Niklas-Terttu/cronovelo_elementor_addon' );
+define( 'CRONOVELO_ADDONS_REPOSITORY_BRANCH', 'main' );
 
 function cronovelo_addons_init_update_checker() {
-    if ( empty( CRONOVELO_ADDONS_UPDATE_URL ) ) { return; }
+    if ( empty( CRONOVELO_ADDONS_REPOSITORY_URL ) ) { return; }
     $autoload_file = __DIR__ . '/vendor/autoload.php';
     if ( file_exists( $autoload_file ) ) { require_once $autoload_file; }
     if ( ! class_exists( '\\YahnisElsts\\PluginUpdateChecker\\v5\\PucFactory' ) ) {
@@ -33,7 +31,7 @@ function cronovelo_addons_init_update_checker() {
     }
     if ( ! class_exists( '\\YahnisElsts\\PluginUpdateChecker\\v5\\PucFactory' ) ) { return; }
     $update_checker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-        CRONOVELO_ADDONS_UPDATE_URL,
+        CRONOVELO_ADDONS_REPOSITORY_URL,
         __FILE__,
         'cronovelo-addons'
     );
