@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Cronovelo Addons
  * Description: Elementor widgets for Cronovelo and Terttus, including WooCommerce storefront components.
- * Version:     1.2.3
+ * Version:     1.2.4
  * Author:      Cronovelo / Terttus
  * Text Domain: cronovelo-addons
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CRONOVELO_ADDONS_VERSION', '1.2.3' );
+define( 'CRONOVELO_ADDONS_VERSION', '1.2.4' );
 
 if ( ! defined( 'CRONOVELO_ADDONS_UPDATE_URL' ) ) {
     define( 'CRONOVELO_ADDONS_UPDATE_URL', 'https://github.com/Niklas-Terttu/cronovelo_elementor_addon' );
