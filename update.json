@@ -1,7 +1,8 @@
 {
-  "version": "1.3.1",
+  "version": "1.3.2",
   "download_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon/archive/refs/heads/main.zip",
   "details_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon",
-  "description": "Recovery release: rewrites the Terttus header widget with safe PHP syntax and keeps the Terttus storefront design system.",
-  "requires_php": "7.4"
+  "description": "Recovery release: safer Elementor 4 widget registration, explicit widget loading, and compatibility hardening for PHP 8.2.",
+  "requires_php": "7.4",
+  "tested": "7.1.3"
 }
