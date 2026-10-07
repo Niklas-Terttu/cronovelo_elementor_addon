@@ -96,4 +96,6 @@ class Terttus_Header_Widget extends \Elementor\Widget_Base {
     }
 }
 
-\Elementor\Plugin::instance()->widgets_manager->register( new Terttus_Header_Widget() );
+
+
+if ( isset( $widgets_manager ) && is_object( $widgets_manager ) ) { $widgets_manager->register( new Terttus_Header_Widget() ); }
