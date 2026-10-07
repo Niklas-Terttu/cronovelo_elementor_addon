@@ -1,8 +1,8 @@
 {
-  "version": "1.3.2",
+  "version": "1.3.3",
   "download_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon/archive/refs/heads/main.zip",
   "details_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon",
-  "description": "Recovery release: safer Elementor 4 widget registration, explicit widget loading, and compatibility hardening for PHP 8.2.",
+  "description": "Stability release: all Terttus Elementor widgets rewritten with safe readable PHP syntax for PHP 8.2 and Elementor 4.",
   "requires_php": "7.4",
   "tested": "7.1.3"
 }
