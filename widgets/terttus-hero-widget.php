@@ -1,9 +1,76 @@
 <?php
-if(!defined('ABSPATH'))exit;
-class Terttus_Hero_Widget extends \Elementor\Widget_Base{
-public function get_name(){return'terttus_hero';}public function get_title(){return'Terttus Hero';}public function get_icon(){return'eicon-banner';}public function get_categories(){return['terttus-widgets'];}
-protected function register_controls(){$this->start_controls_section('content',['label'=>'Indhold']);$this->add_control('eyebrow',['label'=>'Lille tekst','type'=>\Elementor\Controls_Manager::TEXT,'default'=>'SMART HOME · IT · ELEKTRONIK']);$this->add_control('title',['label'=>'Overskrift','type'=>\Elementor\Controls_Manager::TEXTAREA,'default'=>'Gør dit hjem smartere med Terttus']);$this->add_control('text',['label'=>'Tekst','type'=>\Elementor\Controls_Manager::TEXTAREA,'default'=>'IT, elektronik og smart home – udvalgt af en entusiast, til fornuftige priser og med ordentlig support.']);$this->add_control('button_text',['label'=>'Knaptekst','type'=>\Elementor\Controls_Manager::TEXT,'default'=>'Se alle varer']);$this->add_control('button_link',['label'=>'Knaplink','type'=>\Elementor\Controls_Manager::URL,'default'=>['url'=>'/shop/']]);$this->add_control('image',['label'=>'Billede','type'=>\Elementor\Controls_Manager::MEDIA]);$this->end_controls_section();$this->start_controls_section('style',['label'=>'Design','tab'=>\Elementor\Controls_Manager::TAB_STYLE]);$this->add_control('bg1',['label'=>'Gradient start','type'=>\Elementor\Controls_Manager::COLOR,'default'=>'#0B5360']);$this->add_control('bg2',['label'=>'Gradient slut','type'=>\Elementor\Controls_Manager::COLOR,'default'=>'#2BAFA7']);$this->add_control('accent',['label'=>'Knapfarve','type'=>\Elementor\Controls_Manager::COLOR,'default'=>'#FF7B32']);$this->add_responsive_control('min_height',['label'=>'Min. højde','type'=>\Elementor\Controls_Manager::SLIDER,'range'=>['px'=>['min'=>280,'max'=>800]],'default'=>['size'=>480,'unit'=>'px']]);$this->end_controls_section();}
-protected function render(){$s=$this->get_settings_for_display();$style=sprintf('background:linear-gradient(105deg,%s,%s);min-height:%dpx;',esc_attr($s['bg1']),esc_attr($s['bg2']),intval($s['min_height']['size']));?><section class="terttus-hero terttus-widget" style="<?php echo esc_attr($style);?>"><div class="terttus-hero__glow"></div><div class="terttus-hero__content"><?php if(!empty($s['eyebrow'])): ?><span class="terttus-hero__eyebrow"><?php echo esc_html($s['eyebrow']);?></span><?php endif; ?><h1><?php echo esc_html($s['title']);?></h1><p><?php echo esc_html($s['text']);?></p><?php if(!empty($s['button_text'])): ?><a class="tt-btn tt-btn--accent" style="background:<?php echo esc_attr($s['accent']);?>" href="<?php echo esc_url($s['button_link']['url']);?>"><?php echo esc_html($s['button_text']);?> <span aria-hidden="true">→</span></a><?php endif; ?></div><?php if(!empty($s['image']['url'])): ?><div class="terttus-hero__media"><div class="terttus-hero__media-bg"></div><img src="<?php echo esc_url($s['image']['url']);?>" alt=""></div><?php endif; ?></section><style>.terttus-hero{position:relative;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:44px;border-radius:var(--tt-radius-lg);padding:clamp(32px,5vw,64px);color:#fff;overflow:hidden;isolation:isolate}.terttus-hero__glow{position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.12);filter:blur(4px);right:-150px;top:-190px;z-index:-1}.terttus-hero__content{max-width:720px}.terttus-hero__eyebrow{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.14em;margin-bottom:16px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22)}.terttus-hero h1{font-size:clamp(40px,5vw,68px);line-height:1.02;letter-spacing:-.035em;margin:0 0 18px;color:#fff}.terttus-hero p{font-size:clamp(17px,1.8vw,22px);line-height:1.55;margin:0 0 30px;max-width:650px;color:rgba(255,255,255,.92)}.terttus-hero__media{position:relative;text-align:center}.terttus-hero__media-bg{position:absolute;inset:8% 2%;border-radius:50%;background:rgba(255,255,255,.11);filter:blur(2px)}.terttus-hero__media img{position:relative;width:100%;max-height:380px;object-fit:contain;filter:drop-shadow(0 22px 24px rgba(4,40,47,.22))}@media(max-width:767px){.terttus-hero{grid-template-columns:1fr;padding:30px 24px}.terttus-hero__media{order:-1}.terttus-hero__media img{max-height:210px}}</style><?php}}
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
+class Terttus_Hero_Widget extends \Elementor\Widget_Base {
+    public function get_name() { return 'terttus_hero'; }
+    public function get_title() { return 'Terttus Hero'; }
+    public function get_icon() { return 'eicon-banner'; }
+    public function get_categories() { return [ 'terttus-widgets' ]; }
 
-if ( isset( $widgets_manager ) && is_object( $widgets_manager ) ) { $widgets_manager->register( new Terttus_Hero_Widget() ); }
+    protected function register_controls() {
+        $this->start_controls_section( 'content', [ 'label' => 'Indhold' ] );
+        $this->add_control( 'eyebrow', [ 'label' => 'Lille tekst', 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'SMART HOME · IT · ELEKTRONIK' ] );
+        $this->add_control( 'title', [ 'label' => 'Overskrift', 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'Gør dit hjem smartere med Terttus' ] );
+        $this->add_control( 'text', [ 'label' => 'Tekst', 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'IT, elektronik og smart home – udvalgt af en entusiast, til fornuftige priser og med ordentlig support.' ] );
+        $this->add_control( 'button_text', [ 'label' => 'Knaptekst', 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Se alle varer' ] );
+        $this->add_control( 'button_link', [ 'label' => 'Knaplink', 'type' => \Elementor\Controls_Manager::URL, 'default' => [ 'url' => '/shop/' ] ] );
+        $this->add_control( 'image', [ 'label' => 'Billede', 'type' => \Elementor\Controls_Manager::MEDIA ] );
+        $this->end_controls_section();
+
+        $this->start_controls_section( 'style', [ 'label' => 'Design', 'tab' => \Elementor\Controls_Manager::TAB_STYLE ] );
+        $this->add_control( 'bg1', [ 'label' => 'Gradient start', 'type' => \Elementor\Controls_Manager::COLOR, 'default' => '#0B5360' ] );
+        $this->add_control( 'bg2', [ 'label' => 'Gradient slut', 'type' => \Elementor\Controls_Manager::COLOR, 'default' => '#2BAFA7' ] );
+        $this->add_control( 'accent', [ 'label' => 'Knapfarve', 'type' => \Elementor\Controls_Manager::COLOR, 'default' => '#FF7B32' ] );
+        $this->add_responsive_control( 'min_height', [ 'label' => 'Min. højde', 'type' => \Elementor\Controls_Manager::SLIDER, 'range' => [ 'px' => [ 'min' => 280, 'max' => 800 ] ], 'default' => [ 'size' => 480, 'unit' => 'px' ] ] );
+        $this->end_controls_section();
+    }
+
+    protected function render() {
+        $s = $this->get_settings_for_display();
+        $bg1 = ! empty( $s['bg1'] ) ? $s['bg1'] : '#0B5360';
+        $bg2 = ! empty( $s['bg2'] ) ? $s['bg2'] : '#2BAFA7';
+        $height = ! empty( $s['min_height']['size'] ) ? (int) $s['min_height']['size'] : 480;
+        $style = sprintf( 'background:linear-gradient(105deg,%s,%s);min-height:%dpx;', $bg1, $bg2, $height );
+
+        echo '<section class="terttus-hero terttus-widget" style="' . esc_attr( $style ) . '">';
+        echo '<div class="terttus-hero__glow"></div><div class="terttus-hero__content">';
+
+        if ( ! empty( $s['eyebrow'] ) ) {
+            echo '<span class="terttus-hero__eyebrow">' . esc_html( $s['eyebrow'] ) . '</span>';
+        }
+
+        echo '<h1>' . esc_html( $s['title'] ?? '' ) . '</h1>';
+        echo '<p>' . esc_html( $s['text'] ?? '' ) . '</p>';
+
+        if ( ! empty( $s['button_text'] ) ) {
+            $url = ! empty( $s['button_link']['url'] ) ? $s['button_link']['url'] : '#';
+            $accent = ! empty( $s['accent'] ) ? $s['accent'] : '#FF7B32';
+            echo '<a class="tt-btn tt-btn--accent" style="background:' . esc_attr( $accent ) . '" href="' . esc_url( $url ) . '">' . esc_html( $s['button_text'] ) . ' <span aria-hidden="true">→</span></a>';
+        }
+
+        echo '</div>';
+
+        if ( ! empty( $s['image']['url'] ) ) {
+            echo '<div class="terttus-hero__media"><div class="terttus-hero__media-bg"></div><img src="' . esc_url( $s['image']['url'] ) . '" alt=""></div>';
+        }
+
+        echo '</section>';
+        ?>
+        <style>
+        .terttus-hero{position:relative;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:44px;border-radius:var(--tt-radius-lg);padding:clamp(32px,5vw,64px);color:#fff;overflow:hidden;isolation:isolate}
+        .terttus-hero__glow{position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.12);filter:blur(4px);right:-150px;top:-190px;z-index:-1}
+        .terttus-hero__content{max-width:720px}.terttus-hero__eyebrow{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.14em;margin-bottom:16px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22)}
+        .terttus-hero h1{font-size:clamp(40px,5vw,68px);line-height:1.02;letter-spacing:-.035em;margin:0 0 18px;color:#fff}.terttus-hero p{font-size:clamp(17px,1.8vw,22px);line-height:1.55;margin:0 0 30px;max-width:650px;color:rgba(255,255,255,.92)}
+        .terttus-hero__media{position:relative;text-align:center}.terttus-hero__media-bg{position:absolute;inset:8% 2%;border-radius:50%;background:rgba(255,255,255,.11);filter:blur(2px)}
+        .terttus-hero__media img{position:relative;width:100%;max-height:380px;object-fit:contain;filter:drop-shadow(0 22px 24px rgba(4,40,47,.22))}
+        @media(max-width:767px){.terttus-hero{grid-template-columns:1fr;padding:30px 24px}.terttus-hero__media{order:-1}.terttus-hero__media img{max-height:210px}}
+        </style>
+        <?php
+    }
+}
+
+if ( isset( $widgets_manager ) && is_object( $widgets_manager ) ) {
+    $widgets_manager->register( new Terttus_Hero_Widget() );
+}
