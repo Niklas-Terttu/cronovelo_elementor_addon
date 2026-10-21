@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Cronovelo Addons
  * Description: Elementor widgets for Cronovelo and Terttus, including WooCommerce storefront components.
- * Version:     1.3.3
+ * Version:     1.3.4
  * Author:      Cronovelo / Terttus
  * Text Domain: cronovelo-addons
  * Requires PHP: 7.4
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CRONOVELO_ADDONS_VERSION', '1.3.3' );
+define( 'CRONOVELO_ADDONS_VERSION', '1.3.4' );
 define( 'CRONOVELO_ADDONS_UPDATE_METADATA', 'https://raw.githubusercontent.com/Niklas-Terttu/cronovelo_elementor_addon/main/update.json' );
 
 function cronovelo_addons_assets() {
@@ -17,6 +17,12 @@ function cronovelo_addons_assets() {
     wp_enqueue_style( 'terttus-design-system' );
 }
 add_action( 'wp_enqueue_scripts', 'cronovelo_addons_assets' );
+function cronovelo_video_assets(){
+ wp_enqueue_style('cronovelo-video-player',plugins_url('assets/css/cronovelo-video-player.css',__FILE__),[],CRONOVELO_ADDONS_VERSION);
+ wp_enqueue_script('cronovelo-video-player',plugins_url('assets/js/cronovelo-video-player.js',__FILE__),[],CRONOVELO_ADDONS_VERSION,true);
+}
+add_action('wp_enqueue_scripts','cronovelo_video_assets');
+add_action('elementor/editor/after_enqueue_scripts','cronovelo_video_assets');
 
 function cronovelo_addons_get_update_metadata() {
     $r = wp_remote_get( CRONOVELO_ADDONS_UPDATE_METADATA, [ 'timeout' => 10, 'headers' => [ 'Accept' => 'application/json' ] ] );
@@ -68,6 +74,7 @@ add_action( 'elementor/elements/categories_registered', 'cronovelo_addons_regist
 
 function cronovelo_addons_register_widgets( $widgets_manager ) {
     $files = [
+        'cronovelo-video-player.php',
         'terttus-header-widget.php',
         'terttus-hero-widget.php',
         'terttus-product-grid-widget.php',
