@@ -1,8 +1,8 @@
 {
-  "version": "1.3.4",
+  "version": "1.3.5",
   "download_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon/archive/refs/heads/main.zip",
   "details_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon",
-  "description": "Adds Cronovelo Video Player with responsive controls, autoplay, forced mute, loop and start/end trim.",
+  "description": "Adds a manual 'Søg efter opdateringer' link in the WordPress Plugins screen, with fresh GitHub update checking.",
   "requires_php": "7.4",
   "tested": "7.1.3"
 }
