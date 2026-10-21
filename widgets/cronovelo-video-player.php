@@ -34,7 +34,18 @@ class Cronovelo_Video_Player extends \Elementor\Widget_Base {
   if(!$url){echo '<p>Vælg en video.</p>';return;}
   $config=['start'=>max(0,(float)$s['start']),'end'=>max(0,(float)$s['end'])];
   foreach(['desktop','tablet','mobile'] as $d){foreach(['autoplay','mute','loop','play','sound','fullscreen'] as $k){$config[$d][$k]=($s[$d.'_'.$k]??'')==='yes';}}
-  echo '<div class="cv-player" data-cv="'.esc_attr(wp_json_encode($config)).'"><video playsinline preload="metadata" src="'.esc_url($url).'"'.(!empty($s['poster']['url'])?' poster="'.esc_url($s['poster']['url']).'"':'').'></video><div class="cv-buttons"><button type="button" data-cv-action="play" aria-label="Afspil eller pause">▶</button><button type="button" data-cv-action="sound" aria-label="Slå lyd til eller fra">🔇</button><button type="button" data-cv-action="fullscreen" aria-label="Fuld skærm">⛶</button></div></div>';
+  // Server-rendered responsive visibility: works in Elementor preview even before JS initializes.
+  $uid='cvp-'.esc_attr($this->get_id());
+  $visibility='';
+  foreach (['desktop'=>'(min-width:1025px)','tablet'=>'(min-width:768px) and (max-width:1024px)','mobile'=>'(max-width:767px)'] as $device=>$media) {
+    foreach (['play','sound','fullscreen'] as $action) {
+      if (empty($config[$device][$action])) {
+        $visibility.='@media '.$media.'{#'.$uid.' [data-cv-action="'.$action.'"]{display:none!important;}}';
+      }
+    }
+  }
+  echo '<style>'.$visibility.'</style>';
+  echo '<div id="'.$uid.'" class="cv-player" data-cv="'.esc_attr(wp_json_encode($config)).'"><video playsinline preload="metadata" src="'.esc_url($url).'"'.(!empty($s['poster']['url'])?' poster="'.esc_url($s['poster']['url']).'"':'').'></video><div class="cv-buttons"><button type="button" data-cv-action="play" aria-label="Afspil eller pause">▶</button><button type="button" data-cv-action="sound" aria-label="Slå lyd til eller fra">🔇</button><button type="button" data-cv-action="fullscreen" aria-label="Fuld skærm">⛶</button></div></div>';
  }
 }
 \Elementor\Plugin::instance()->widgets_manager->register(new Cronovelo_Video_Player());
