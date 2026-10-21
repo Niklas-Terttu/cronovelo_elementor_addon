@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Cronovelo Addons
  * Description: Elementor widgets for Cronovelo and Terttus, including WooCommerce storefront components.
- * Version:     1.3.5
+ * Version:     1.4.0
  * Author:      Cronovelo / Terttus
  * Text Domain: cronovelo-addons
  * Requires PHP: 7.4
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CRONOVELO_ADDONS_VERSION', '1.3.5' );
+define( 'CRONOVELO_ADDONS_VERSION', '1.4.0' );
 define( 'CRONOVELO_ADDONS_UPDATE_METADATA', 'https://raw.githubusercontent.com/Niklas-Terttu/cronovelo_elementor_addon/main/update.json' );
 
 function cronovelo_addons_assets() {
@@ -71,6 +71,42 @@ function cronovelo_addons_register_categories( $elements_manager ) {
     $elements_manager->add_category( 'terttus-widgets', [ 'title' => esc_html__( 'Terttus Shop Elementer', 'cronovelo-addons' ), 'icon' => 'eicon-woocommerce' ] );
 }
 add_action( 'elementor/elements/categories_registered', 'cronovelo_addons_register_categories' );
+
+
+/**
+ * Load original Cronovelo widgets without changing their Elementor IDs.
+ * Legacy files self-register on elementor/widgets/register.
+ * During migration, the older plugin remains the provider if it is active.
+ */
+function cronovelo_addons_load_legacy_widgets() {
+    $legacy_active = false;
+    $active_plugins = (array) get_option('active_plugins', []);
+    if (is_multisite()) {
+        $active_plugins = array_merge($active_plugins, array_keys((array) get_site_option('active_sitewide_plugins', [])));
+    }
+    foreach ($active_plugins as $plugin_file) {
+        if ($plugin_file === plugin_basename(__FILE__)) continue;
+        if (strtolower(basename($plugin_file)) === 'cronovelo-addons.php') {
+            $legacy_active = true;
+            break;
+        }
+    }
+    if ($legacy_active) return;
+    $files = [
+        'cronovelo-offer-grid-widget.php',
+        'cronovelo-hero-slider-widget.php',
+        'cronovelo-about-split-widget.php',
+        'cronovelo-cta-banner-widget.php',
+        'cronovelo-product-card-widget.php',
+        'cronovelo-event-promo-widget.php',
+        'cronovelo-services-grid-widget.php',
+    ];
+    foreach ($files as $file) {
+        $path = __DIR__ . '/widgets/' . $file;
+        if (is_readable($path)) require_once $path;
+    }
+}
+add_action('elementor/init', 'cronovelo_addons_load_legacy_widgets', 20);
 
 function cronovelo_addons_register_widgets( $widgets_manager ) {
     $files = [
