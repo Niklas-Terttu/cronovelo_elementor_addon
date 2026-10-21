@@ -1,8 +1,8 @@
 {
-  "version": "1.4.0",
+  "version": "1.4.1",
   "download_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon/archive/refs/heads/main.zip",
   "details_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon",
-  "description": "Unified Cronovelo Addons: original seven Cronovelo Elementor widgets, four Terttus widgets, video player and manual update checks. Preserves legacy widget IDs.",
+  "description": "Fix Cronovelo Video Player missing from Elementor widget list.",
   "requires_php": "7.4",
   "tested": "7.1.3"
 }
