@@ -37,3 +37,4 @@ class Cronovelo_Video_Player extends \Elementor\Widget_Base {
   echo '<div class="cv-player" data-cv="'.esc_attr(wp_json_encode($config)).'"><video playsinline preload="metadata" src="'.esc_url($url).'"'.(!empty($s['poster']['url'])?' poster="'.esc_url($s['poster']['url']).'"':'').'></video><div class="cv-buttons"><button type="button" data-cv-action="play" aria-label="Afspil eller pause">▶</button><button type="button" data-cv-action="sound" aria-label="Slå lyd til eller fra">🔇</button><button type="button" data-cv-action="fullscreen" aria-label="Fuld skærm">⛶</button></div></div>';
  }
 }
+\Elementor\Plugin::instance()->widgets_manager->register(new Cronovelo_Video_Player());
