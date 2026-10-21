@@ -1,8 +1,8 @@
 {
-  "version": "1.4.2",
+  "version": "1.4.3",
   "download_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon/archive/refs/heads/main.zip",
   "details_url": "https://github.com/Niklas-Terttu/cronovelo_elementor_addon",
-  "description": "Show installed and latest GitHub versions, bypass cache for manual update checks, and report errors.",
+  "description": "Fix responsive video player control visibility in Elementor preview.",
   "requires_php": "7.4",
   "tested": "7.1.3"
 }
