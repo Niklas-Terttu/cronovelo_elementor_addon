@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Cronovelo Addons
  * Description: Elementor widgets for Cronovelo and Terttus, including WooCommerce storefront components.
- * Version:     1.3.4
+ * Version:     1.3.5
  * Author:      Cronovelo / Terttus
  * Text Domain: cronovelo-addons
  * Requires PHP: 7.4
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CRONOVELO_ADDONS_VERSION', '1.3.4' );
+define( 'CRONOVELO_ADDONS_VERSION', '1.3.5' );
 define( 'CRONOVELO_ADDONS_UPDATE_METADATA', 'https://raw.githubusercontent.com/Niklas-Terttu/cronovelo_elementor_addon/main/update.json' );
 
 function cronovelo_addons_assets() {
@@ -86,3 +86,45 @@ function cronovelo_addons_register_widgets( $widgets_manager ) {
     }
 }
 add_action( 'elementor/widgets/register', 'cronovelo_addons_register_widgets' );
+
+/**
+ * Manual update check from Plugins screen.
+ * Uses the standard WordPress plugin-update transient and a fresh GitHub metadata request.
+ */
+function cronovelo_addons_update_action_link($links, $file) {
+ if ($file === plugin_basename(__FILE__) && current_user_can('update_plugins')) {
+  $url = wp_nonce_url(admin_url('admin-post.php?action=cronovelo_addons_check_updates'), 'cronovelo_addons_check_updates');
+  $links[] = '<a href="' . esc_url($url) . '">Søg efter opdateringer</a>';
+ }
+ return $links;
+}
+add_filter('plugin_action_links', 'cronovelo_addons_update_action_link', 10, 2);
+
+function cronovelo_addons_manual_update_check() {
+ if (!current_user_can('update_plugins')) wp_die('Ingen adgang.');
+ check_admin_referer('cronovelo_addons_check_updates');
+ delete_site_transient('update_plugins');
+ $metadata = cronovelo_addons_get_update_metadata();
+ if (!$metadata || empty($metadata['version'])) {
+  $status = 'error';
+ } else {
+  wp_update_plugins();
+  $status = version_compare(CRONOVELO_ADDONS_VERSION, $metadata['version'], '<') ? 'available' : 'current';
+ }
+ wp_safe_redirect(add_query_arg('cronovelo_update_status', $status, admin_url('plugins.php')));
+ exit;
+}
+add_action('admin_post_cronovelo_addons_check_updates', 'cronovelo_addons_manual_update_check');
+
+function cronovelo_addons_update_check_notice() {
+ if (!current_user_can('update_plugins') || !isset($_GET['cronovelo_update_status'])) return;
+ $status = sanitize_key(wp_unslash($_GET['cronovelo_update_status']));
+ $messages = [
+  'available' => 'Cronovelo Addons: Der er en ny opdatering klar. Opdater pluginet nedenfor.',
+  'current' => 'Cronovelo Addons: Du har allerede den nyeste version.',
+  'error' => 'Cronovelo Addons: Kunne ikke hente versionsinformation fra GitHub. Prøv igen senere.'
+ ];
+ if (!isset($messages[$status])) return;
+ echo '<div class="notice notice-' . ($status === 'error' ? 'error' : 'success') . ' is-dismissible"><p>' . esc_html($messages[$status]) . '</p></div>';
+}
+add_action('admin_notices', 'cronovelo_addons_update_check_notice');
